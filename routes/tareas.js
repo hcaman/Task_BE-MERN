@@ -16,4 +16,13 @@ router.post(
 
 router.get('/', auth, tareaController.showTarea);
 
+router.put(
+  '/:id',
+  auth,
+  [check('nombre', 'El nombre es obligatorio').not().isEmpty()],
+  tareaController.updateTarea
+);
+
+router.get('/', auth, tareaController.deleteTarea);
+
 module.exports = router;
