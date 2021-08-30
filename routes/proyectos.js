@@ -8,8 +8,14 @@ router.post(
   '/',
   auth,
   [check('nombre', 'El nombre del proyecto es obligatorio').not().isEmpty()],
-  proyectoController.crearProyecto
+  proyectoController.addProyecto
 );
 router.get('/', auth, proyectoController.showProyecto);
+router.put(
+  '/:id',
+  auth,
+  [check('nombre', 'El nombre del proyecto es obligatorio').not().isEmpty()],
+  proyectoController.updateProyecto
+);
 
 module.exports = router;
