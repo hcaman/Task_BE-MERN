@@ -50,3 +50,32 @@ exports.showTarea = async (req, res) => {
     res.status(500).send('Hubo un error');
   }
 };
+
+exports.updateTarea = async (req, res) => {
+  try {
+    const { proyecto, nombre, estado } = req.body;
+
+    let tarea = await Tarea.findById(req.params.id);
+
+    if (!tarea) {
+      return res.status(404).json({ msg: 'Tarea no encontrada' });
+    }
+
+    const isProyecto = await Proyecto.findById(proyecto);
+
+    if (isProyecto.creador.toString() !== req.usuario.id) {
+      return res.status(401).json({ msg: 'No autorizado' });
+    }
+
+    const nuevaTareas = {};
+    if (nombre) nuevaTareas.nombre = nombre;
+    if (typeof estado === 'boolean') nuevaTareas.estado = estado;
+    tarea = await Tarea.findOneAndUpdate({ _id: req.params.id }, nuevaTareas, {
+      new: true,
+    });
+    res.json({ tarea });
+  } catch (error) {
+    console.log('Error:' + error);
+    res.status(500).send('Hubo un error');
+  }
+};
