@@ -1,12 +1,18 @@
 const Usuario = require('../models/Usuario');
 exports.crearUsuario = async (req, res) => {
-  // console.log(req.body);
+  const { email, password } = req.body;
   try {
-    let usuario;
+    let usuario = await Usuario.findOne({ email });
+
+    if (usuario) {
+      return res.status(400).json({ msg: 'El usuario ya existe' });
+    }
+
     usuario = new Usuario(req.body);
-    console.log(usuario);
+
     await usuario.save();
-    res.send('Usuario creado correctamente');
+
+    res.json({ msg: 'Usuario creado correctamente' });
   } catch (error) {
     console.log('Error:' + error);
     res.status(400).send('Hubo un error');
