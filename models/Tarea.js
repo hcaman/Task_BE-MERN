@@ -1,14 +1,18 @@
 const mongoose = require('mongoose');
 
-const ProyectoSchema = mongoose.Schema({
+const TareaSchema = mongoose.Schema({
   nombre: {
     type: String,
     required: true,
     trim: true,
   },
   creador: {
+    type: Boolean,
+    default: false,
+  },
+  proyecto: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usuario',
+    ref: 'Proyecto',
   },
   creado: {
     type: Date,
@@ -16,4 +20,4 @@ const ProyectoSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Proyecto', ProyectoSchema);
+module.exports = mongoose.model('Tarea', TareaSchema);
