@@ -22,3 +22,16 @@ exports.crearProyecto = async (req, res) => {
     res.status(500).send('Hubo un error');
   }
 };
+
+exports.showProyecto = async (req, res) => {
+  try {
+    const proyectos = await Proyecto.find({ creador: req.usuario.id }).sort({
+      creado: -1,
+    });
+
+    res.json({ proyectos });
+  } catch (error) {
+    console.log('Error:' + error);
+    res.status(500).send('Hubo un error');
+  }
+};
