@@ -23,6 +23,6 @@ router.put(
   tareaController.updateTarea
 );
 
-router.get('/', auth, tareaController.deleteTarea);
+router.delete('/:id', auth, tareaController.deleteTarea);
 
 module.exports = router;

@@ -79,3 +79,28 @@ exports.updateTarea = async (req, res) => {
     res.status(500).send('Hubo un error');
   }
 };
+
+exports.deleteTarea = async (req, res) => {
+  try {
+    const { proyecto } = req.body;
+
+    let tarea = await Tarea.findById(req.params.id);
+
+    if (!tarea) {
+      return res.status(404).json({ msg: 'Tarea no encontrada' });
+    }
+
+    const isProyecto = await Proyecto.findById(proyecto);
+
+    if (isProyecto.creador.toString() !== req.usuario.id) {
+      return res.status(401).json({ msg: 'No autorizado' });
+    }
+
+    await Tarea.findOneAndRemove({ _id: req.params.id });
+
+    res.json({ msg: 'Tarea eliminada' });
+  } catch (error) {
+    console.log('Error:' + error);
+    res.status(500).send('Hubo un error');
+  }
+};
