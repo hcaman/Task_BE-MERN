@@ -32,7 +32,7 @@ exports.addTarea = async (req, res) => {
 
 exports.showTarea = async (req, res) => {
   try {
-    const { proyecto } = req.body;
+    const { proyecto } = req.query;
     const isProyecto = await Proyecto.findById(proyecto);
 
     if (!isProyecto) {
@@ -82,7 +82,7 @@ exports.updateTarea = async (req, res) => {
 
 exports.deleteTarea = async (req, res) => {
   try {
-    const { proyecto } = req.body;
+    const { proyecto } = req.query;
 
     let tarea = await Tarea.findById(req.params.id);
 
